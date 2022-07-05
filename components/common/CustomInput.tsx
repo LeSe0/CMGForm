@@ -1,5 +1,5 @@
-import React from "react";
-import { useFormikContext } from "formik";
+import React, { useContext } from "react";
+import { FormikContext } from "formik";
 
 //components
 import { TextField } from "@mui/material";
@@ -10,13 +10,21 @@ interface Props {
 }
 
 const CustomInput = ({ fieldName, placeholder }: Props) => {
-  const { getFieldProps } = useFormikContext();
+  const { getFieldProps, errors, touched } = useContext(FormikContext);
+
+  const isError = Boolean(touched[fieldName] && errors[fieldName]);
 
   return (
     <TextField
       {...getFieldProps(fieldName)}
       variant="standard"
       placeholder={placeholder}
+      error={isError}
+      helperText={(isError && errors[fieldName]) as string}
+      sx={{
+        width: "312px",
+        height: "80px",
+      }}
     />
   );
 };
