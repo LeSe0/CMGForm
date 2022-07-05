@@ -41,27 +41,33 @@ export default function DatePicker({}: Props) {
 
   return (
     <Grid container mt="20px" columnGap="15px">
-      <CustomDatePicker
-        label="Day"
-        fieldName="day"
-        data={daysForChoose}
-        selectedMonth={selectedMonth}
-        selectedYear={selectedYear}
-      />
-      <CustomDatePicker
-        label="Month"
-        fieldName="month"
-        data={months}
-        selectedDay={selectedDay}
-        selectedMonth={selectedMonth}
-      />
-      <CustomDatePicker
-        label="Year"
-        fieldName="year"
-        data={yearsForChoose}
-        selectedDay={selectedDay}
-        selectedMonth={selectedMonth}
-      />
+      <Grid item xs={3}>
+        <CustomDatePicker
+          label="Day"
+          fieldName="day"
+          data={daysForChoose}
+          selectedMonth={selectedMonth}
+          selectedYear={selectedYear}
+        />
+      </Grid>
+      <Grid item xs={4}>
+        <CustomDatePicker
+          label="Month"
+          fieldName="month"
+          data={months}
+          selectedDay={selectedDay}
+          selectedMonth={selectedMonth}
+        />
+      </Grid>
+      <Grid item xs={3}>
+        <CustomDatePicker
+          label="Year"
+          fieldName="year"
+          data={yearsForChoose}
+          selectedDay={selectedDay}
+          selectedMonth={selectedMonth}
+        />
+      </Grid>
     </Grid>
   );
 }

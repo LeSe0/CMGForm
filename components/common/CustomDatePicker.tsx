@@ -72,17 +72,20 @@ export default function CustomDatePicker({
   }
 
   return (
-    <Grid item minWidth="90px">
+    <Grid item>
       <InputLabel id="labelForDate" shrink={true}>
         {label}
       </InputLabel>
       <Select
-        fullWidth
         native
+        fullWidth
         error={isError}
         variant="standard"
         id={label + fieldName}
         {...getFieldProps(fieldName)}
+        sx={{
+          fontSize: { xs: "13px", md: "13px" },
+        }}
       >
         {data.map((el) => {
           return (
@@ -94,7 +97,7 @@ export default function CustomDatePicker({
       </Select>
       <Typography
         sx={{
-          fontSize: "13px",
+          fontSize: { xs: "11px", lg: "13px" },
           color: "red",
         }}
       >

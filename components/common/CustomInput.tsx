@@ -18,11 +18,12 @@ const CustomInput = ({ fieldName, placeholder }: Props) => {
     <TextField
       {...getFieldProps(fieldName)}
       variant="standard"
+      fullWidth
       placeholder={placeholder}
       error={isError}
       helperText={(isError && errors[fieldName]) as string}
       sx={{
-        width: "312px",
+        width: { xs: "100%", sm: "250px", md: "312px" },
         height: "80px",
       }}
     />

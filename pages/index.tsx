@@ -1,5 +1,5 @@
 // Formik
-import { Form, FormikProvider, useFormik } from "formik";
+import { FastField, Form, FormikProvider, useFormik } from "formik";
 import { userSchema } from "providers/yup";
 
 // Components
@@ -38,8 +38,14 @@ const Home: NextPage = () => {
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={handleSubmit}>
-        <Grid container bgcolor="#e4e4e4" justifyContent="space-around">
-          <Grid item>
+        <Grid
+          container
+          bgcolor="#e4e4e4"
+          justifyContent={{ xs: "center", md: "space-around" }}
+          alignItems="center"
+          flexDirection={{ xs: "column", md: "row" }}
+        >
+          <Grid item xs={8} md={5}>
             <Stack>
               <CustomInput fieldName="username" placeholder="Username" />
               <CustomInput fieldName="password" placeholder="Password" />
@@ -51,7 +57,7 @@ const Home: NextPage = () => {
               <CustomInput fieldName="lastname" placeholder="Last Name" />
             </Stack>
           </Grid>
-          <Grid item>
+          <Grid item xs={8} md={5}>
             <Stack>
               <CustomInput fieldName="parentId" placeholder="Referral ID" />
               <DatePicker />
