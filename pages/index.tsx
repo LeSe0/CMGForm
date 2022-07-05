@@ -1,11 +1,12 @@
 // Formik
 import { Form, FormikProvider, useFormik } from "formik";
-import { userSchema } from "../providers/yup";
+import { userSchema } from "providers/yup";
 
 // Components
 import type { NextPage } from "next";
-import { Grid, Stack } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 import CustomInput from "components/common/CustomInput";
+import DatePicker from "components/common/DatePicker";
 
 const Home: NextPage = () => {
   const formik = useFormik({
@@ -29,17 +30,15 @@ const Home: NextPage = () => {
       alert(JSON.stringify(values, null, 2));
       resetForm();
     },
-    onReset: (values) => {
-      alert(values);
-    },
     validationSchema: userSchema(),
+    validateOnChange: false,
   });
 
   const { handleSubmit } = formik;
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={handleSubmit}>
-        <Grid container bgcolor="#e4e4e4" justifyContent="space-between">
+        <Grid container bgcolor="#e4e4e4" justifyContent="space-around">
           <Grid item>
             <Stack>
               <CustomInput fieldName="username" placeholder="Username" />
@@ -50,18 +49,16 @@ const Home: NextPage = () => {
               />
               <CustomInput fieldName="firstname" placeholder="First Name" />
               <CustomInput fieldName="lastname" placeholder="Last Name" />
-              <CustomInput
-                fieldName="repeatPassword"
-                placeholder="Repeat Password"
-              />
             </Stack>
           </Grid>
           <Grid item>
             <Stack>
               <CustomInput fieldName="parentId" placeholder="Referral ID" />
+              <DatePicker />
             </Stack>
           </Grid>
         </Grid>
+        <Button type="submit">Submit</Button>
       </Form>
     </FormikProvider>
   );
