@@ -1,17 +1,15 @@
 // React
-import React, { memo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Hooks/HOCS
 import { usePropagateRef } from "providers/hooks";
 import { useField } from "formik";
 
-// Components
-import { TextFieldProps, TextField } from "@mui/material";
+// types
+import { PerformantTextFieldProps } from "providers/types";
 
-export type PerformantTextFieldProps = Omit<TextFieldProps, "name"> & {
-  name: string;
-  placeholder: string;
-};
+// Components
+import { TextField } from "@mui/material";
 
 export const CustomInput: React.FC<PerformantTextFieldProps> = props => {
   const [field, meta] = useField(props.name);

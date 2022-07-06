@@ -4,6 +4,7 @@ import { FormikContext, useField } from "formik";
 // Components
 import { InputLabel, Select, Typography, Grid, TextFieldProps, SelectChangeEvent } from "@mui/material";
 import { usePropagateRef } from "providers/hooks";
+import { ErrorMessage } from "./CustomTypography";
 
 type TMonthsLong = {
   [key: string]: string;
@@ -114,14 +115,7 @@ export default function CustomDatePicker(props: Props) {
           );
         })}
       </Select>
-      <Typography
-        sx={{
-          fontSize: { xs: "11px", lg: "13px" },
-          color: "red"
-        }}
-      >
-        {meta.touched && meta.error}
-      </Typography>
+      <ErrorMessage meta={meta} />
     </Grid>
   );
 }
