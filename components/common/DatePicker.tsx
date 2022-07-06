@@ -22,7 +22,7 @@ export default function DatePicker({}: Props) {
     "September",
     "October",
     "November",
-    "December",
+    "December"
   ];
 
   const selectedYear = getFieldProps("year").value;
@@ -40,8 +40,8 @@ export default function DatePicker({}: Props) {
   }
 
   return (
-    <Grid container mt="20px" columnGap="15px">
-      <Grid item xs={3}>
+    <Grid container mt="20px" columnGap="15px" justifyContent="space-between">
+      <Grid item xs={3} width="100% !important">
         <CustomDatePicker
           label="Day"
           fieldName="day"
@@ -50,16 +50,10 @@ export default function DatePicker({}: Props) {
           selectedYear={selectedYear}
         />
       </Grid>
-      <Grid item xs={4}>
-        <CustomDatePicker
-          label="Month"
-          fieldName="month"
-          data={months}
-          selectedDay={selectedDay}
-          selectedMonth={selectedMonth}
-        />
+      <Grid item xs={4} width="100% !important">
+        <CustomDatePicker label="Month" fieldName="month" data={months} selectedDay={selectedDay} selectedMonth={selectedMonth} />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={3} width="100% !important">
         <CustomDatePicker
           label="Year"
           fieldName="year"

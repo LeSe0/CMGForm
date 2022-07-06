@@ -9,7 +9,7 @@ import { useField } from "formik";
 import { PerformantTextFieldProps } from "providers/types";
 
 // Components
-import { TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { ErrorMessage } from "./CustomTypography";
 
 export const CustomInput: React.FC<PerformantTextFieldProps> = props => {
@@ -49,14 +49,14 @@ export const CustomInput: React.FC<PerformantTextFieldProps> = props => {
   };
 
   return (
-    <>
+    <Box>
       <TextField
         variant="standard"
         fullWidth
         error={error}
         sx={{
           "& input": {
-            minHeight: "40px"
+            minHeight: "25px"
           }
         }}
         onChange={onChange}
@@ -64,6 +64,6 @@ export const CustomInput: React.FC<PerformantTextFieldProps> = props => {
         {...props}
       />
       <ErrorMessage meta={meta} />
-    </>
+    </Box>
   );
 };

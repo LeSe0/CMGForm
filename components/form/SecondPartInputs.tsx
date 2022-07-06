@@ -15,11 +15,13 @@ export default function SecondPartInputs() {
   const [country, setCountry] = useState("af");
 
   return (
-    <Stack gap="15px">
-      <CustomInput name="parentId" placeholder="Referral ID" />
+    <Stack rowGap="20px">
       <DatePicker />
+      <CustomInput name="city" placeholder="Enter your city" />
       <CountrySelector name="country" setFieldValue={setCountry} />
-      <CustomPhoneSelector name="phone" placeholder="asd" fieldValue={country} />
+      <CustomInput name="address" placeholder="Enter your address" />
+      <CustomPhoneSelector name="phone" placeholder="Enter your Phone" fieldValue={country} />
+      <CustomInput name="parentId" placeholder="Enter your Referral ID" />
     </Stack>
   );
 }

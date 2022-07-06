@@ -6,7 +6,7 @@ import { userSchema } from "providers/yup";
 import type { NextPage } from "next";
 
 // Components
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Stack, Typography } from "@mui/material";
 import FirstInputs from "components/form/FirstInputs";
 import SecondPartInputs from "components/form/SecondPartInputs";
 
@@ -40,21 +40,42 @@ const Home: NextPage = () => {
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={handleSubmit}>
-        <Grid
-          container
-          bgcolor="#e4e4e4"
-          justifyContent={{ xs: "center", md: "space-around" }}
-          alignItems="center"
-          flexDirection={{ xs: "column", md: "row" }}
-        >
-          <Grid item xs={8} md={5}>
-            <FirstInputs />
+        <Stack bgcolor="#e4e4e4" py="30px" alignItems="center" justifyContent="flex-start">
+          <Typography
+            sx={{
+              fontSize: { xs: "18px", md: "20px", lg: "24px" }
+            }}
+          >
+            Register
+          </Typography>
+          <Grid
+            container
+            justifyContent={{ xs: "center", md: "space-around" }}
+            mb={{ xs: "8vw", sm: "6vw", md: "5vw" }}
+            alignItems="center"
+            flexDirection={{ xs: "column", md: "row" }}
+            sx={{
+              "& .MuiGrid-item": {
+                width: { xs: "80%", md: "auto" }
+              }
+            }}
+          >
+            <Grid item xs={8} md={5}>
+              <FirstInputs />
+            </Grid>
+            <Grid item xs={8} md={5}>
+              <SecondPartInputs />
+            </Grid>
           </Grid>
-          <Grid item xs={8} md={5}>
-            <SecondPartInputs />
-          </Grid>
-        </Grid>
-        <Button type="submit">Submit</Button>
+          <Button
+            type="submit"
+            sx={{
+              width: { xs: "100px", md: "130px" }
+            }}
+          >
+            Submit
+          </Button>
+        </Stack>
       </Form>
     </FormikProvider>
   );

@@ -91,7 +91,7 @@ export default function CustomDatePicker(props: Props) {
   };
 
   return (
-    <Grid item>
+    <>
       <InputLabel id="labelForDate" shrink={true}>
         {label}
       </InputLabel>
@@ -116,6 +116,6 @@ export default function CustomDatePicker(props: Props) {
         })}
       </Select>
       <ErrorMessage meta={meta} />
-    </Grid>
+    </>
   );
 }
