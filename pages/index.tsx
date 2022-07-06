@@ -1,15 +1,15 @@
 // Formik
-import { FastField, Form, FormikProvider, useFormik } from "formik";
-import { userSchema } from "providers/yup";
+import { Form, FormikProvider, useFormik } from "formik";
 
 // Components
 import type { NextPage } from "next";
-import { Button, Grid, Stack } from "@mui/material";
-import CustomInput from "components/common/CustomInput";
-import DatePicker from "components/common/DatePicker";
+import { Button, Grid } from "@mui/material";
+import FirstInputs from "components/form/FirstInputs";
+import { firstPartInputsSchema, secondPartInputsSchema } from "providers/yup";
+import SecondPartInputs from "components/form/SecondPartInputs";
 
 const Home: NextPage = () => {
-  const formik = useFormik({
+  const formikFirst = useFormik({
     initialValues: {
       username: "",
       password: "",
@@ -17,6 +17,16 @@ const Home: NextPage = () => {
       firstname: "",
       lastname: "",
       city: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      resetForm();
+    },
+    validationSchema: firstPartInputsSchema(),
+    validateOnChange: false,
+  });
+
+  const formikSecond = useFormik({
+    initialValues: {
       phone: "",
       country: "",
       address: "",
@@ -27,46 +37,39 @@ const Home: NextPage = () => {
       parentId: "",
     },
     onSubmit: (values, { resetForm }) => {
-      alert(JSON.stringify(values, null, 2));
       resetForm();
     },
-    validationSchema: userSchema(),
+    validationSchema: secondPartInputsSchema(),
     validateOnChange: false,
   });
 
-  const { handleSubmit } = formik;
   return (
-    <FormikProvider value={formik}>
-      <Form onSubmit={handleSubmit}>
-        <Grid
-          container
-          bgcolor="#e4e4e4"
-          justifyContent={{ xs: "center", md: "space-around" }}
-          alignItems="center"
-          flexDirection={{ xs: "column", md: "row" }}
-        >
+    <form
+      onSubmit={() => {
+        formikFirst.handleSubmit();
+        formikSecond.handleSubmit();
+      }}
+    >
+      <Grid
+        container
+        bgcolor="#e4e4e4"
+        justifyContent={{ xs: "center", md: "space-around" }}
+        alignItems="center"
+        flexDirection={{ xs: "column", md: "row" }}
+      >
+        <FormikProvider value={formikFirst}>
           <Grid item xs={8} md={5}>
-            <Stack>
-              <CustomInput fieldName="username" placeholder="Username" />
-              <CustomInput fieldName="password" placeholder="Password" />
-              <CustomInput
-                fieldName="repeatPassword"
-                placeholder="Repeat Password"
-              />
-              <CustomInput fieldName="firstname" placeholder="First Name" />
-              <CustomInput fieldName="lastname" placeholder="Last Name" />
-            </Stack>
+            <FirstInputs />
           </Grid>
-          <Grid item xs={8} md={5}>
-            <Stack>
-              <CustomInput fieldName="parentId" placeholder="Referral ID" />
-              <DatePicker />
-            </Stack>
-          </Grid>
+        </FormikProvider>
+        <Grid item xs={8} md={5}>
+          <FormikProvider value={formikSecond}>
+            <SecondPartInputs />
+          </FormikProvider>
         </Grid>
-        <Button type="submit">Submit</Button>
-      </Form>
-    </FormikProvider>
+      </Grid>
+      <Button type="submit">Submit</Button>
+    </form>
   );
 };
 

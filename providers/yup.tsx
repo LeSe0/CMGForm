@@ -1,6 +1,26 @@
 import * as Yup from "yup";
 
-export const userSchema = () => {
+export const secondPartInputsSchema = () => {
+  return Yup.object().shape({
+    phone: Yup.string().required("Phone is required"),
+    country: Yup.string()
+      .max(20, "Country name maximum length is 20 symbols")
+      .required("Country is required"),
+    address: Yup.string()
+      .max(20, "Address maximum length is 20 symbols")
+      .required("Address is required"),
+    email: Yup.string().email("Email is invalid").required("Email is required"),
+    day: Yup.string().required("Day is required"),
+    month: Yup.string().required("Month is required"),
+    year: Yup.string().required("Year is required"),
+    parentId: Yup.string()
+      .max(20, "Parent Id maximum length is 20 sybmols")
+      .matches(/^\d+$/, "Parent Id is invalid")
+      .required("Parent Id is required"),
+  });
+};
+
+export const firstPartInputsSchema = () => {
   return Yup.object().shape({
     username: Yup.string()
       .matches(
@@ -36,20 +56,5 @@ export const userSchema = () => {
     city: Yup.string()
       .max(20, "City name maximum length is 20 symbols")
       .required("This field is required"),
-    phone: Yup.string().required("Phone is required"),
-    country: Yup.string()
-      .max(20, "Country name maximum length is 20 symbols")
-      .required("Country is required"),
-    address: Yup.string()
-      .max(20, "Address maximum length is 20 symbols")
-      .required("Address is required"),
-    email: Yup.string().email("Email is invalid").required("Email is required"),
-    day: Yup.string().required("Day is required"),
-    month: Yup.string().required("Month is required"),
-    year: Yup.string().required("Year is required"),
-    parentId: Yup.string()
-      .max(20, "Parent Id maximum length is 20 sybmols")
-      .matches(/^\d+$/, "Parent Id is invalid")
-      .required("Parent Id is required"),
   });
 };

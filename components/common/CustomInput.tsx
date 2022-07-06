@@ -23,7 +23,7 @@ const CustomInput = ({ fieldName, placeholder }: Props) => {
       error={isError}
       helperText={(isError && errors[fieldName]) as string}
       sx={{
-        width: { xs: "100%", sm: "250px", md: "312px" },
+        width: { xs: "100%", md: "312px" },
         height: "80px",
       }}
     />

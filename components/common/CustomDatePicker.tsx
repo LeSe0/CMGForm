@@ -84,7 +84,7 @@ export default function CustomDatePicker({
         id={label + fieldName}
         {...getFieldProps(fieldName)}
         sx={{
-          fontSize: { xs: "13px", md: "13px" },
+          fontSize: { xs: "13px", sm: "15px", md: "18px" },
         }}
       >
         {data.map((el) => {
