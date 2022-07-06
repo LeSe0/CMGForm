@@ -67,7 +67,7 @@ export default function CustomPhoneSelector(props: PerformantTextFieldProps) {
       }}
     >
       <PhoneInput
-        country={props?.country?.toLowerCase()}
+        country={props.fieldValue?.toLowerCase()}
         enableSearch={true}
         value={fieldValue}
         onChange={onChange}

@@ -1,7 +1,10 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
-// Hooks/HOCS
+// Data
+import { countries } from "providers/ConstantData";
+
+// hooks/hocs
 import { usePropagateRef } from "providers/hooks";
 import { useField } from "formik";
 
@@ -9,13 +12,12 @@ import { useField } from "formik";
 import { PerformantTextFieldProps } from "providers/types";
 
 // Components
-import { TextField } from "@mui/material";
-import { ErrorMessage } from "./CustomTypography";
+import { Select, SelectChangeEvent } from "@mui/material";
 
-export const CustomInput: React.FC<PerformantTextFieldProps> = props => {
+function CountrySelector(props: PerformantTextFieldProps) {
   const [field, meta] = useField(props.name);
   const error = !!meta.error && meta.touched;
-  const [fieldValue, setFieldValue] = useState<string | number>(field.value);
+  const [fieldValue, setFieldValue] = useState<string>(field.value);
 
   usePropagateRef({
     setFieldValue,
@@ -32,8 +34,9 @@ export const CustomInput: React.FC<PerformantTextFieldProps> = props => {
     }
   }, [field.value]);
 
-  const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (evt: SelectChangeEvent<string>) => {
     setFieldValue(evt.target.value);
+    props?.setFieldValue ? props?.setFieldValue(evt.target.value) : "";
   };
 
   const onBlur = (evt: React.FocusEvent<HTMLInputElement>) => {
@@ -49,21 +52,23 @@ export const CustomInput: React.FC<PerformantTextFieldProps> = props => {
   };
 
   return (
-    <>
-      <TextField
-        variant="standard"
-        fullWidth
-        error={error}
-        sx={{
-          "& input": {
-            minHeight: "40px"
-          }
-        }}
-        onChange={onChange}
-        onBlur={onBlur}
-        {...props}
-      />
-      <ErrorMessage meta={meta} />
-    </>
+    <Select
+      native
+      fullWidth
+      error={error}
+      variant="standard"
+      onChange={onChange}
+      onBlur={onBlur}
+      ref={props.ref}
+      sx={{
+        fontSize: { xs: "13px", sm: "15px", md: "18px" }
+      }}
+    >
+      {countries.map(el => {
+        return <option value={el.value}>{el.label}</option>;
+      })}
+    </Select>
   );
-};
+}
+
+export default CountrySelector;

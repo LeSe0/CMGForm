@@ -16,7 +16,8 @@ export function ErrorMessage({ meta }: Props) {
     <Typography
       sx={{
         fontSize: { xs: "11px", lg: "13px" },
-        color: "red"
+        color: "red",
+        minHeight: "20px"
       }}
     >
       {meta.touched && meta.error}

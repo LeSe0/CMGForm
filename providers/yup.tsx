@@ -24,7 +24,10 @@ export const userSchema = () => {
       .required("Last name must be filled"),
     city: Yup.string().max(20, "City name maximum length is 20 symbols").required("This field is required"),
     phone: Yup.string().required("Phone is required"),
-    country: Yup.string().max(20, "Country name maximum length is 20 symbols").required("Country is required"),
+    country: Yup.string()
+      .max(20, "Country name maximum length is 20 symbols")
+      .matches(/[a-zA-Z]{2,}/, "Please select your country")
+      .required("Country is required"),
     address: Yup.string().max(20, "Address maximum length is 20 symbols").required("Address is required"),
     email: Yup.string().email("Email is invalid").required("Email is required"),
     day: Yup.string().required("Day is required"),
