@@ -1,41 +1,43 @@
 // React
-import React, { useContext } from "react";
-import { FormikContext } from "formik";
+import React, { useContext, useEffect, useState } from "react";
+import { FormikContext, useField } from "formik";
 // Components
-import { InputLabel, Select, Typography, Grid } from "@mui/material";
+import { InputLabel, Select, Typography, Grid, TextFieldProps, SelectChangeEvent } from "@mui/material";
+import { usePropagateRef } from "providers/hooks";
 
 type TMonthsLong = {
   [key: string]: string;
 };
 
-interface Props {
+type Props = Omit<TextFieldProps, "name"> & {
   data: (string | number)[];
   label: string;
   fieldName: string;
   selectedDay?: number | string;
   selectedMonth: string;
   selectedYear?: number | string;
-}
+};
 
-export default function CustomDatePicker({ data, label, fieldName, selectedDay, selectedMonth, selectedYear }: Props) {
-  const { getFieldProps, errors } = useContext(FormikContext);
+const monthsLong: TMonthsLong = {
+  January: "01",
+  February: "02",
+  March: "03",
+  April: "04",
+  May: "05",
+  June: "06",
+  July: "07",
+  August: "08",
+  September: "09",
+  October: "10",
+  November: "11",
+  December: "12"
+};
 
-  const isError = Boolean(errors[fieldName]);
-
-  const monthsLong: TMonthsLong = {
-    January: "01",
-    February: "02",
-    March: "03",
-    April: "04",
-    May: "05",
-    June: "06",
-    July: "07",
-    August: "08",
-    September: "09",
-    October: "10",
-    November: "11",
-    December: "12"
-  };
+export default function CustomDatePicker(props: Props) {
+  let { data, label, fieldName, selectedDay, selectedMonth, selectedYear } = props;
+  const [field, meta] = useField(fieldName);
+  const error = !!meta.error && meta.touched;
+  const [fieldValue, setFieldValue] = useState<string | number>(field.value);
 
   if (fieldName === "year" && selectedMonth === "February" && selectedDay === "29") {
     data = data.filter(el => {
@@ -56,6 +58,37 @@ export default function CustomDatePicker({ data, label, fieldName, selectedDay, 
     }
   }
 
+  usePropagateRef({
+    setFieldValue,
+    name: fieldName,
+    value: field.value
+  });
+
+  useEffect(() => {
+    if (meta.touched) {
+      return;
+    }
+    if (field.value !== fieldValue) {
+      setFieldValue(field.value);
+    }
+  }, [field.value]);
+
+  const onChange = (evt: SelectChangeEvent<string>) => {
+    setFieldValue(evt.target.value);
+  };
+
+  const onBlur = (evt: React.FocusEvent<HTMLInputElement>) => {
+    const val = evt.target.value || "";
+    window.setTimeout(() => {
+      field.onChange({
+        target: {
+          name: fieldName,
+          value: props.type === "number" ? parseInt(val, 10) : val
+        }
+      });
+    }, 0);
+  };
+
   return (
     <Grid item>
       <InputLabel id="labelForDate" shrink={true}>
@@ -64,10 +97,11 @@ export default function CustomDatePicker({ data, label, fieldName, selectedDay, 
       <Select
         native
         fullWidth
-        error={isError}
+        error={error}
         variant="standard"
         id={label + fieldName}
-        {...getFieldProps(fieldName)}
+        onChange={onChange}
+        onBlur={onBlur}
         sx={{
           fontSize: { xs: "13px", sm: "15px", md: "18px" }
         }}
@@ -86,7 +120,7 @@ export default function CustomDatePicker({ data, label, fieldName, selectedDay, 
           color: "red"
         }}
       >
-        {(isError && errors[fieldName]) as string}
+        {meta.touched && meta.error}
       </Typography>
     </Grid>
   );

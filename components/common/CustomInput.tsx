@@ -2,7 +2,7 @@
 import React, { memo, useEffect, useState } from "react";
 
 // Hooks/HOCS
-import { usePropagateRef } from "./usePropogateRef";
+import { usePropagateRef } from "providers/hooks";
 import { useField } from "formik";
 
 // Components
@@ -13,7 +13,7 @@ export type PerformantTextFieldProps = Omit<TextFieldProps, "name"> & {
   placeholder: string;
 };
 
-export const CustomInput: React.FC<PerformantTextFieldProps> = memo(props => {
+export const CustomInput: React.FC<PerformantTextFieldProps> = props => {
   const [field, meta] = useField(props.name);
   const error = !!meta.error && meta.touched;
   const [fieldValue, setFieldValue] = useState<string | number>(field.value);
@@ -63,4 +63,4 @@ export const CustomInput: React.FC<PerformantTextFieldProps> = memo(props => {
       }}
     />
   );
-});
+};

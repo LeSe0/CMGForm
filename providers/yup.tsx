@@ -10,7 +10,7 @@ export const userSchema = () => {
     password: Yup.string().min(8, "Password minimum length is 8 symbols").required("Password must be filled"),
     repeatPassword: Yup.string()
       .min(8, "Password minimum length is 8 symbols")
-      .required("")
+      .required("Repeat password is required")
       .oneOf([Yup.ref("password"), null], "This field must be equal password"),
     firstname: Yup.string()
       .matches(/^[a-z,A-Z,0-9" "]+$/g, "First name can include only latin letters, and numbers")

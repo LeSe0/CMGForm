@@ -1,15 +1,16 @@
 // Formik
-import { FastField, FastFieldProps, Form, FormikProvider, useFormik } from "formik";
+import { Form, FormikProvider, useFormik } from "formik";
+import { userSchema } from "providers/yup";
+
+// types
+import type { NextPage } from "next";
 
 // Components
-import type { NextPage } from "next";
 import { Button, Grid } from "@mui/material";
 import FirstInputs from "components/form/FirstInputs";
-import { userSchema } from "providers/yup";
 import SecondPartInputs from "components/form/SecondPartInputs";
 
 const Home: NextPage = () => {
-  console.count("default");
   const formik = useFormik({
     initialValues: {
       username: "",
