@@ -1,33 +1,66 @@
-import React, { useContext } from "react";
-import { FormikContext } from "formik";
+// React
+import React, { memo, useEffect, useState } from "react";
 
-//components
-import { TextField } from "@mui/material";
+// Hooks/HOCS
+import { usePropagateRef } from "./usePropogateRef";
+import { useField } from "formik";
 
-interface Props {
-  fieldName: string;
+// Components
+import { TextFieldProps, TextField } from "@mui/material";
+
+export type PerformantTextFieldProps = Omit<TextFieldProps, "name"> & {
+  name: string;
   placeholder: string;
-}
+};
 
-const CustomInput = ({ fieldName, placeholder }: Props) => {
-  const { getFieldProps, errors, touched } = useContext(FormikContext);
+export const CustomInput: React.FC<PerformantTextFieldProps> = memo(props => {
+  const [field, meta] = useField(props.name);
+  const error = !!meta.error && meta.touched;
+  const [fieldValue, setFieldValue] = useState<string | number>(field.value);
 
-  const isError = Boolean(touched[fieldName] && errors[fieldName]);
+  usePropagateRef({
+    setFieldValue,
+    name: props.name,
+    value: field.value
+  });
+
+  useEffect(() => {
+    if (meta.touched) {
+      return;
+    }
+    if (field.value !== fieldValue) {
+      setFieldValue(field.value);
+    }
+  }, [field.value]);
+
+  const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setFieldValue(evt.target.value);
+  };
+
+  const onBlur = (evt: React.FocusEvent<HTMLInputElement>) => {
+    const val = evt.target.value || "";
+    window.setTimeout(() => {
+      field.onChange({
+        target: {
+          name: props.name,
+          value: props.type === "number" ? parseInt(val, 10) : val
+        }
+      });
+    }, 0);
+  };
 
   return (
     <TextField
-      {...getFieldProps(fieldName)}
       variant="standard"
       fullWidth
-      placeholder={placeholder}
-      error={isError}
-      helperText={(isError && errors[fieldName]) as string}
+      error={error}
+      helperText={meta.touched && meta.error}
+      onChange={onChange}
+      onBlur={onBlur}
+      {...props}
       sx={{
-        width: { xs: "100%", md: "312px" },
-        height: "80px",
+        height: "80px"
       }}
     />
   );
-};
-
-export default CustomInput;
+});

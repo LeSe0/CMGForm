@@ -1,15 +1,16 @@
 // Formik
-import { Form, FormikProvider, useFormik } from "formik";
+import { FastField, FastFieldProps, Form, FormikProvider, useFormik } from "formik";
 
 // Components
 import type { NextPage } from "next";
 import { Button, Grid } from "@mui/material";
 import FirstInputs from "components/form/FirstInputs";
-import { firstPartInputsSchema, secondPartInputsSchema } from "providers/yup";
+import { userSchema } from "providers/yup";
 import SecondPartInputs from "components/form/SecondPartInputs";
 
 const Home: NextPage = () => {
-  const formikFirst = useFormik({
+  console.count("default");
+  const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
@@ -17,16 +18,6 @@ const Home: NextPage = () => {
       firstname: "",
       lastname: "",
       city: "",
-    },
-    onSubmit: (values, { resetForm }) => {
-      resetForm();
-    },
-    validationSchema: firstPartInputsSchema(),
-    validateOnChange: false,
-  });
-
-  const formikSecond = useFormik({
-    initialValues: {
       phone: "",
       country: "",
       address: "",
@@ -34,42 +25,37 @@ const Home: NextPage = () => {
       day: "",
       month: "",
       year: "",
-      parentId: "",
+      parentId: ""
     },
-    onSubmit: (values, { resetForm }) => {
-      resetForm();
-    },
-    validationSchema: secondPartInputsSchema(),
+    onSubmit: () => {},
+    validationSchema: userSchema(),
     validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false
   });
 
+  const { handleSubmit } = formik;
+
   return (
-    <form
-      onSubmit={() => {
-        formikFirst.handleSubmit();
-        formikSecond.handleSubmit();
-      }}
-    >
-      <Grid
-        container
-        bgcolor="#e4e4e4"
-        justifyContent={{ xs: "center", md: "space-around" }}
-        alignItems="center"
-        flexDirection={{ xs: "column", md: "row" }}
-      >
-        <FormikProvider value={formikFirst}>
+    <FormikProvider value={formik}>
+      <Form onSubmit={handleSubmit}>
+        <Grid
+          container
+          bgcolor="#e4e4e4"
+          justifyContent={{ xs: "center", md: "space-around" }}
+          alignItems="center"
+          flexDirection={{ xs: "column", md: "row" }}
+        >
           <Grid item xs={8} md={5}>
             <FirstInputs />
           </Grid>
-        </FormikProvider>
-        <Grid item xs={8} md={5}>
-          <FormikProvider value={formikSecond}>
+          <Grid item xs={8} md={5}>
             <SecondPartInputs />
-          </FormikProvider>
+          </Grid>
         </Grid>
-      </Grid>
-      <Button type="submit">Submit</Button>
-    </form>
+        <Button type="submit">Submit</Button>
+      </Form>
+    </FormikProvider>
   );
 };
 
